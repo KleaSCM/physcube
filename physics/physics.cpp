@@ -11,26 +11,21 @@ struct Object {
 std::vector<Object> objects;
 
 // constraints for the simulation
-
 const double GRAVITY = 9.81;
-const double TIME_STEP = 0.016; // this is 60fps
-
-extern "C"
-
+const double TIME_STEP = 0.016; // 60FPS
+extern "C" {
 // initialzie the object in cube
 EMSCRIPTEN_KEEPALIVE
 void init_object(double x, double y, double z, double vx, double vy, double vz, double mass) {
     objects.clear();
     objects.push_back({ x, y, z, vx, vy, vz, mass });
 }
-
 // basic motion + gravity
 EMSCRIPTEN_KEEPALIVE
 void update_physics() {
     for (auto& obj : objects) {
         //gravity
         obj.vy -= GRAVITY * TIME_STEP;
-
         //position
         obj.x += obj.vx * TIME_STEP;
         obj.y += obj.vy * TIME_STEP;
