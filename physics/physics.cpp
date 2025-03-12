@@ -43,3 +43,7 @@ void update_physics() {
      }
      
      }
+
+     extern "C" int main() { 
+        return 0; 
+    }
