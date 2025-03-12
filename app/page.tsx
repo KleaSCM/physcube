@@ -72,7 +72,7 @@ export default function PhysCube() {
     const cubeWireframe = new THREE.LineSegments(cubeEdges, cubeMaterial);
     scene.add(cubeWireframe);
 
-    // Physics object (ball)
+    // sphere
     const objectGeometry = new THREE.SphereGeometry(0.2, 16, 16);
     const objectMaterial = new THREE.MeshBasicMaterial({ color: 0xff6699 });
     const physicsObject = new THREE.Mesh(objectGeometry, objectMaterial);
