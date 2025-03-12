@@ -1,0 +1,51 @@
+BasketBall props
+   
+    Mass: m=0.625m=0.625 kg
+    Diameter: d=0.24d=0.24 m (radius = 0.12 m)
+    Restitution coefficient: e≈0.75e≈0.75 (bounciness)
+    Drag coefficient: Cd=0.47Cd​=0.47 (basketball is roughly a sphere)
+    Air resistance: Fd=0.5CdAρv2Fd​=0.5Cd​Aρv2
+
+Reference: FIBA/NBA official specifications
+
+Cube specifications 
+
+V=s3=20m3
+s=203≈2.71m
+s=320
+​≈2.71m
+
+So the cube size should be 2.71m per side.
+
+1️⃣ Gravity
+Fg=mg
+Fg​=mg
+
+Where g=9.81m/s2g=9.81m/s2. Acceleration is:
+ag=g=−9.81m/s2
+ag​=g=−9.81m/s2
+2️⃣ Air Resistance (Drag)
+Fd=12CdρAv2
+Fd​=21​Cd​ρAv2
+
+Where:
+
+    ρ=1.225ρ=1.225 kg/m³ (air density)
+    A=πr2=0.0452A=πr2=0.0452 m² (cross-sectional area)
+    Cd=0.47Cd​=0.47 (drag coefficient for spheres)
+
+Deceleration due to drag:
+ad=Fdm=0.5⋅0.47⋅1.225⋅0.0452⋅v20.625
+ad​=mFd​​=0.6250.5⋅0.47⋅1.225⋅0.0452⋅v2​
+3️⃣ Rolling Friction
+
+A basketball rolling inside a cube will experience rolling resistance, modeled as:
+Fr=μrmg
+Fr​=μr​mg
+
+where μr≈0.02μr​≈0.02 for a rubber ball on a hard surface.
+
+Acceleration due to rolling friction:
+ar=Frm=μrg
+ar​=mFr​​=μr​g
+4️⃣ Coriolis & Centrifugal Forces (Rotating Cube)
