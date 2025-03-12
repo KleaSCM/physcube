@@ -12,7 +12,10 @@ export default function PhysCube() {
       try {
         const res = await fetch("/physics.wasm");
         const bytes = await res.arrayBuffer();
-        const { instance } = await WebAssembly.instantiate(bytes, {});
+        const importObject = { env: {} }; 
+        const { instance } = await WebAssembly.instantiate(bytes, importObject);
+        setWasmModule(instance);
+        
         setWasmModule(instance);
       } catch (error) {
         console.error("Failed to load WASM module", error);
