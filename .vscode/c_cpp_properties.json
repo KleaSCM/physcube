@@ -1,14 +1,13 @@
 {
   "configurations": [
     {
-      "name": "emscripten",
+      "name": "windows-gcc-x64",
       "includePath": [
-        "${workspaceFolder}/**",
-        "C:/Users/aikaw/emsdk/upstream/emscripten/system/include"
+        "${workspaceFolder}/**"
       ],
-      "compilerPath": "C:/Users/aikaw/emsdk/upstream/emscripten/em++.bat",
-      "cStandard": "c11",
-      "cppStandard": "c++17",
+      "compilerPath": "gcc",
+      "cStandard": "${default}",
+      "cppStandard": "${default}",
       "intelliSenseMode": "windows-gcc-x64",
       "compilerArgs": []
     }

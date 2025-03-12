@@ -1,49 +1,75 @@
+
+
 #include <emscripten.h>
-#include <vector>
 #include <cmath>
 
 struct Object {
     double x, y, z;
     double vx, vy, vz;
+    double radius;
     double mass;
-}; 
+};
+const double GRAVITY = -9.81;
+// Energy loss on bounces
+const double DAMPING = 0.98; 
+// Half-length of the cube (5m total)
+const double CUBE_SIZE = 2.5; 
+Object ball;
 
-std::vector<Object> objects;
-
-// constraints for the simulation
-const double GRAVITY = 9.81;
-const double TIME_STEP = 0.016; // 60FPS
 extern "C" {
-// initialzie the object in cube
-EMSCRIPTEN_KEEPALIVE
-void init_object(double x, double y, double z, double vx, double vy, double vz, double mass) {
-    objects.clear();
-    objects.push_back({ x, y, z, vx, vy, vz, mass });
-}
-// basic motion + gravity
-EMSCRIPTEN_KEEPALIVE
-void update_physics() {
-    for (auto& obj : objects) {
-        //gravity
-        obj.vy -= GRAVITY * TIME_STEP;
-        //position
-        obj.x += obj.vx * TIME_STEP;
-        obj.y += obj.vy * TIME_STEP;
-        obj.z += obj.vz * TIME_STEP;
-        // elastic bounce, collision with cube
-        if (obj.x > 2.5 || obj.x < -2.5) obj.vx *= -1;
-        if (obj.y > 2.5 || obj.y < -2.5) obj.vy *= -1;
-        if (obj.z > 2.5 || obj.z < -2.5) obj.vz *= -1;
+    EMSCRIPTEN_KEEPALIVE void init_object(double x, double y, double z, double vx, double vy, double vz, double radius) {
+        ball.x = x;
+        ball.y = y;
+        ball.z = z;
+        ball.vx = vx;
+        ball.vy = vy;
+        ball.vz = vz;
+        ball.radius = radius;
+        // Approximate mass of a basketball in kg
+        ball.mass = 0.6; 
     }
-}
-     // retrieve possition and return pointer to possitin array
-     EMSCRIPTEN_KEEPALIVE
-     double* get_object_position() {
-         return reinterpret_cast<double*>(&objects[0]);
-     }
-     
-     }
+    EMSCRIPTEN_KEEPALIVE void update_physics(double deltaTime) {
+        // Apply gravity
+        ball.vy += GRAVITY * deltaTime;
 
-     extern "C" int main() { 
-        return 0; 
+        // Update position
+        ball.x += ball.vx * deltaTime;
+        ball.y += ball.vy * deltaTime;
+        ball.z += ball.vz * deltaTime;
+        // Collision with walls
+        if (ball.x + ball.radius > CUBE_SIZE) {
+            ball.x = CUBE_SIZE - ball.radius;
+            ball.vx *= -DAMPING;
+        }
+        if (ball.x - ball.radius < -CUBE_SIZE) {
+            ball.x = -CUBE_SIZE + ball.radius;
+            ball.vx *= -DAMPING;
+        }
+        if (ball.y + ball.radius > CUBE_SIZE) {
+            ball.y = CUBE_SIZE - ball.radius;
+            ball.vy *= -DAMPING;
+        }
+        if (ball.y - ball.radius < -CUBE_SIZE) {
+            ball.y = -CUBE_SIZE + ball.radius;
+            ball.vy *= -DAMPING;
+        }
+        if (ball.z + ball.radius > CUBE_SIZE) {
+            ball.z = CUBE_SIZE - ball.radius;
+            ball.vz *= -DAMPING;
+        }
+        if (ball.z - ball.radius < -CUBE_SIZE) {
+            ball.z = -CUBE_SIZE + ball.radius;
+            ball.vz *= -DAMPING;
+        }
     }
+    EMSCRIPTEN_KEEPALIVE double* get_object_position() {
+        static double pos[3];
+        pos[0] = ball.x;
+        pos[1] = ball.y;
+        pos[2] = ball.z;
+        return pos;
+    }
+    EMSCRIPTEN_KEEPALIVE void reset_object() {
+        init_object(0, 2, 0, 0, 0, 0, 0.24); // reset
+    }
+}
