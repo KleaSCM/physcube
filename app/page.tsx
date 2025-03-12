@@ -41,33 +41,24 @@ export default function PhysCube() {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
     camera.position.set(12, 12, 20);
     camera.lookAt(0, 0, 0);
-
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     mountRef.current?.appendChild(renderer.domElement);
-
     const cube = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10), new THREE.MeshBasicMaterial({ wireframe: true }));
     scene.add(cube);
-
     const ball = new THREE.Mesh(new THREE.SphereGeometry(0.24, 32, 32), new THREE.MeshBasicMaterial({ color: 0xff6699 }));
     scene.add(ball);
-
     const animate = () => {
       cubeRotationX += 0.005;
       cubeRotationY += 0.005;
       cube.rotation.set(cubeRotationX, cubeRotationY, 0);
-
       updatePhysics(0.016, cubeRotationX * 0.2, cubeRotationY * 0.2);
-
       const pos = new Float64Array(wasmMemory, getObjectPosition(), 3);
       ball.position.set(pos[0], pos[1], pos[2]);
-
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     };
-
     animate();
   }, [wasmModule, wasmMemory]);
-
   return <div ref={mountRef} />;
 }
