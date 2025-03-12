@@ -30,7 +30,6 @@ void update_physics() {
         obj.x += obj.vx * TIME_STEP;
         obj.y += obj.vy * TIME_STEP;
         obj.z += obj.vz * TIME_STEP;
-
         // elastic bounce, collision with cube
         if (obj.x > 2.5 || obj.x < -2.5) obj.vx *= -1;
         if (obj.y > 2.5 || obj.y < -2.5) obj.vy *= -1;
@@ -38,7 +37,6 @@ void update_physics() {
     }
 }
      // retrieve possition and return pointer to possitin array
-
      EMSCRIPTEN_KEEPALIVE
      double* get_object_position() {
          return reinterpret_cast<double*>(&objects[0]);
